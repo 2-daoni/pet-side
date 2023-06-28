@@ -1,11 +1,12 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import Route from './src/navigations/Route';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const App = () => {
   return (
-    <View>
-      <Text>petSide</Text>
-    </View>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Route />
+    </GestureHandlerRootView>
   );
 };
 

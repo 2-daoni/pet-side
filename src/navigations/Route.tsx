@@ -59,7 +59,7 @@ const Route = () => {
                   props.navigation.navigate(item.name);
                 }}>
                 {/* <Icon source={item.source}/> */}
-                <Text>{item.name}</Text>
+                <Label>{item.name}</Label>
               </RouteBtn>
             );
           })}
@@ -79,6 +79,12 @@ const Route = () => {
 
 const RouteBtnContainer = styled.View`
   flex-direction: row;
+  height: 60px;
+  border-radius: 999px;
+  background-color: #f5eee9;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
 `;
 
 const Icon = styled.Image<{isFocused?: boolean}>`
@@ -88,5 +94,10 @@ const Icon = styled.Image<{isFocused?: boolean}>`
 `;
 
 const RouteBtn = styled.TouchableOpacity``;
+
+const Label = styled.Text`
+  font-size: 12px;
+  color: #e06710;
+`;
 
 export default Route;

@@ -4,42 +4,44 @@ import {
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../features/home/screens/HomeScreen';
-import {Text} from 'react-native';
 import styled from 'styled-components/native';
 import {NavigationContainer} from '@react-navigation/native';
+import {Ionicons} from '@expo/vector-icons';
+import {Theme} from '../types/Theme';
+import LoginScreen from '../features/auth/screens/LoginScreen';
 
 const Tab = createBottomTabNavigator<any>();
 
 interface RouteBtnItemsType {
   id: number;
-  source: string;
+  icon: string;
   name: string;
 }
 
 const routeBtnItems: Array<RouteBtnItemsType> = [
   {
     id: 1,
-    source: 'src/assets/images/.png',
+    icon: 'src/assets/images/.png',
     name: 'Home',
   },
   {
     id: 2,
-    source: 'src/assets/images/.png',
+    icon: 'src/assets/images/.png',
     name: 'Community',
   },
   {
     id: 3,
-    source: 'src/assets/images/.png',
+    icon: 'src/assets/images/.png',
     name: 'Plus',
   },
   {
     id: 4,
-    source: 'src/assets/images/.png',
+    icon: 'src/assets/images/.png',
     name: 'List',
   },
   {
     id: 5,
-    source: 'src/assets/images/.png',
+    icon: 'src/assets/images/.png',
     name: 'My',
   },
 ];
@@ -58,6 +60,7 @@ const Route = () => {
                 onPress={() => {
                   props.navigation.navigate(item.name);
                 }}>
+                {/* <Ionicons name={item.icon} /> */}
                 {/* <Icon source={item.source}/> */}
                 <Label>{item.name}</Label>
               </RouteBtn>
@@ -72,6 +75,7 @@ const Route = () => {
     <NavigationContainer>
       <Tab.Navigator tabBar={customTabBar} initialRouteName="Home">
         <Tab.Screen name={'Home'} component={HomeScreen} />
+        <Tab.Screen name={'Login'} component={LoginScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
@@ -81,7 +85,7 @@ const RouteBtnContainer = styled.View`
   flex-direction: row;
   height: 60px;
   border-radius: 999px;
-  background-color: #f5eee9;
+  background-color: ${Theme.colors.orangeLight};
   justify-content: space-between;
   align-items: center;
   padding: 0 30px;
@@ -97,7 +101,7 @@ const RouteBtn = styled.TouchableOpacity``;
 
 const Label = styled.Text`
   font-size: 12px;
-  color: #e06710;
+  color: ${Theme.colors.orange};
 `;
 
 export default Route;

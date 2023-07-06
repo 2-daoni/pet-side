@@ -2,7 +2,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 
-#import "RNSplashScreen.h"
+#import "RNBootSplash.h"
 
 @implementation AppDelegate
 
@@ -13,7 +13,8 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
-  [RNSplashScreen show];
+  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:self.window.rootViewController.view]; // <- initialization using the storyboard file name
+
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }

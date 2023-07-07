@@ -65,12 +65,13 @@ const Route = () => {
             return (
               <RouteBtn
                 key={item.id}
+                id={item.id}
+                isCurrent={item.name === currentTab}
                 onPress={() => {
                   props.navigation.navigate(item.name);
                   setCurrentTab(item.name);
                 }}>
                 <Icon
-                  id={item.id}
                   size={item?.size}
                   source={item.image}
                   isCurrent={item.name === currentTab}
@@ -107,7 +108,7 @@ const RouteBtnContainer = styled.View`
   background-color: ${Theme.colors.orangeLight};
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px 10px;
+  padding: 0 50px 10px;
 `;
 
 const Icon = styled.Image<{isCurrent?: boolean; size?: number; id?: number}>`
@@ -115,6 +116,10 @@ const Icon = styled.Image<{isCurrent?: boolean; size?: number; id?: number}>`
   height: ${(props: any) => (props.size ? props.size : 25)}px;
   tint-color: ${(props: any) =>
     props.isCurrent ? Theme.colors.orange : '#878282'};
+`;
+
+const RouteBtn = styled.TouchableOpacity<{id?: number; isCurrent?: boolean}>`
+  align-items: center;
   ${(props: any) =>
     props.id === 3 &&
     css`
@@ -123,11 +128,6 @@ const Icon = styled.Image<{isCurrent?: boolean; size?: number; id?: number}>`
       border-width: 1px;
       border-radius: 50px;
     `}
-`;
-
-const RouteBtn = styled.TouchableOpacity`
-  align-items: center;
-  width: 50px;
 `;
 
 const Label = styled.Text<{isCurrent?: boolean}>`

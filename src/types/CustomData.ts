@@ -3,6 +3,13 @@ export interface LoginDto {
   password: string;
 }
 
+export interface UserDto {
+  id: number;
+  email: string;
+  name: string;
+  petName: string;
+}
+
 export interface ScheduleDto {
   id: number;
   type: 'Walking' | 'Snack' | 'Meal' | 'Custom';

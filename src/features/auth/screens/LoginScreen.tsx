@@ -1,12 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {Text, TextInput, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {LoginDto} from 'src/types/CustomData';
 import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams';
-import {Theme} from 'src/types/Theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
+import Header from '../../../components/Header';
 
 const LoginScreen = () => {
   const navigation =
@@ -23,6 +23,8 @@ const LoginScreen = () => {
         if (checkEmailRegex(loginData.email)) {
           setIsActive(true);
         }
+      } else {
+        setIsActive(false);
       }
     } else {
       setIsActive(false);
@@ -41,24 +43,34 @@ const LoginScreen = () => {
   const handleLogin = () => {
     // 로그인
     AsyncStorage.setItem('isLogin', 'true');
+    navigation.navigate('Home');
   };
 
   useEffect(() => {
     checkLoginData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loginData]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      header: () => {
+        return <Header title="Login" disableBackBtn />;
+      },
+    });
+  }, []);
 
   return (
     <Container>
       <InputContainer>
         <Label>Email</Label>
-        <TextInput
+        <Input
           onChangeText={(text: string) => {
             setLoginData({...loginData, email: text});
           }}
           placeholder="이메일을 입력해주세요"
         />
         <Label>Password</Label>
-        <TextInput
+        <Input
           onChangeText={(text: string) => {
             setLoginData({...loginData, password: text});
           }}
@@ -69,12 +81,12 @@ const LoginScreen = () => {
         <BtnText>로그인</BtnText>
       </Btn>
       <RowContainer>
-        <Text>아직 회원이 아니신가요?</Text>
+        <GrayText>아직 회원이 아니신가요?</GrayText>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('RegisterScreen');
           }}>
-          <Text>가입하기</Text>
+          <GrayText>가입하기</GrayText>
         </TouchableOpacity>
       </RowContainer>
     </Container>
@@ -83,7 +95,9 @@ const LoginScreen = () => {
 
 const Container = styled.View`
   flex: 1;
-  background-color: ${Theme.colors.white};
+  justify-content: center;
+  background-color: white;
+  padding: 0 20px;
 `;
 
 const RowContainer = styled.View`
@@ -99,19 +113,30 @@ const Label = styled.Text`
 
 const Input = styled.TextInput`
   border-bottom-width: 1px;
-  border-color: ${Theme.colors.grayLight};
+  border-color: #e5e5e5;
+  margin: 5px 0 10px;
+  padding: 5px 0;
 `;
 
 const Btn = styled.TouchableOpacity<{isActive?: boolean}>`
   border-radius: 999px;
-  background-color: ${Theme.colors.orange};
   opacity: ${(props: any) => (props.isActive ? 1 : 0.3)};
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin: 10px 0;
+  background-color: orange;
 `;
 
 const BtnText = styled.Text`
   color: white;
   font-weight: 700;
   font-size: 16px;
+`;
+
+const GrayText = styled.Text`
+  font-size: 12px;
+  color: #d9d9d9;
 `;
 
 export default LoginScreen;

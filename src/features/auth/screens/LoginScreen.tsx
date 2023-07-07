@@ -6,7 +6,7 @@ import {LoginDto} from 'src/types/CustomData';
 import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
-import Header from '../../../components/Header';
+import Header from 'src/components/Header';
 
 const LoginScreen = () => {
   const navigation =

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {ScheduleDto, UserDto} from 'src/types/CustomData';
-import {Theme} from '../../../types/Theme';
+import {Theme} from 'src/types/Theme';
 import styled from 'styled-components/native';
-import ScheduleImg from '../../../components/ScheduleImg';
+import ScheduleImg from 'src/components/ScheduleImg';
 
 interface Props {
   user: UserDto;

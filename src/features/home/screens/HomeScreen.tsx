@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import Banner from '../components/Banner';
 import CustomCalendar from '../components/CustomCalendar';
 import {ScheduleDto, UserDto} from 'src/types/CustomData';
-import {User, UserSchedule} from '../../../types/DummyData';
+import {User, UserSchedule} from 'src/types/DummyData';
 
 const HomeScreen = () => {
   const navigation =

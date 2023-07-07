@@ -69,15 +69,13 @@ const Banner = ({user, userSchedule}: Props) => {
               return;
             } else {
               return (
-                <>
-                  <BannerContainer key={item.id}>
-                    <BannerImg source={getImage(item)} />
-                    <View>
-                      <Text>{item.date.split(' ', 1)}</Text>
-                      <Title>{getTitle(item)}</Title>
-                    </View>
-                  </BannerContainer>
-                </>
+                <BannerContainer key={item.id}>
+                  <BannerImg source={getImage(item)} />
+                  <View>
+                    <Text>{item.date.split(' ', 1)}</Text>
+                    <Title>{getTitle(item)}</Title>
+                  </View>
+                </BannerContainer>
               );
             }
           })}

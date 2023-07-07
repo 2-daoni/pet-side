@@ -4,7 +4,7 @@ export const UserSchedule: Array<ScheduleDto> = [
   {
     id: 1,
     type: 'Meal',
-    date: '2023.07.06 17:00:00',
+    date: '2023-07-06 17:00:00',
     status: 'Done',
   },
   {
@@ -12,7 +12,7 @@ export const UserSchedule: Array<ScheduleDto> = [
     type: 'Custom',
     title: '개훌륭 보기',
     contents: '',
-    date: '2023.07.08 12:30:00',
+    date: '2023-07-08 12:30:00',
     status: 'Ready',
   },
 ];

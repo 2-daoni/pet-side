@@ -30,7 +30,7 @@ const HomeScreen = () => {
   return (
     <Container>
       <Banner user={user} userSchedule={userSchedule} />
-      <CustomCalendar />
+      <CustomCalendar userSchedule={userSchedule} />
     </Container>
   );
 };

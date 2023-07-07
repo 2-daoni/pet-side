@@ -12,4 +12,8 @@ export type CustomBottomTabNavigationParams = {
 export type CustomStackNavigationParams = {
   LoginScreen: undefined;
   RegisterScreen: undefined;
+  PetContentsScreen: undefined;
+  MyScreen: undefined;
+  HomeScreen: undefined;
+  CommunityScreen: undefined;
 };

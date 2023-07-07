@@ -9,6 +9,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Theme} from '../types/Theme';
 import LoginScreen from '../features/auth/screens/LoginScreen';
 import RegisterScreen from '../features/auth/screens/RegisterScreen';
+import CommunityScreen from 'src/features/community/screens/CommunityScreen';
+import PetContentsScreen from 'src/features/petContents/PetContentsScreen';
+import MyScreen from 'src/features/my/screens/MyScreen';
 
 const Tab = createBottomTabNavigator<any>();
 
@@ -68,16 +71,16 @@ const Route = () => {
                 id={item.id}
                 isCurrent={item.name === currentTab}
                 onPress={() => {
-                  props.navigation.navigate(item.name);
-                  setCurrentTab(item.name);
+                  props.navigation.navigate(item.route);
+                  setCurrentTab(item.route);
                 }}>
                 <Icon
                   size={item?.size}
                   source={item.image}
-                  isCurrent={item.name === currentTab}
+                  isCurrent={item.route === currentTab}
                 />
                 {item.id !== 3 && (
-                  <Label isCurrent={item.name === currentTab}>
+                  <Label isCurrent={item.route === currentTab}>
                     {item.name}
                   </Label>
                 )}
@@ -95,6 +98,9 @@ const Route = () => {
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'LoginScreen'} component={LoginScreen} />
         <Tab.Screen name={'RegisterScreen'} component={RegisterScreen} />
+        <Tab.Screen name={'Community'} component={CommunityScreen} />
+        <Tab.Screen name={'Pet'} component={PetContentsScreen} />
+        <Tab.Screen name={'My'} component={MyScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

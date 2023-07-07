@@ -55,7 +55,7 @@ const routeBtnItems: Array<RouteBtnItemsType> = [
 ];
 
 const Route = () => {
-  const [currentTab, setCurrentTab] = useState<string>('Home');
+  const [currentTab, setCurrentTab] = useState<string>('홈');
 
   const customTabBar = (props: BottomTabBarProps) => {
     return (

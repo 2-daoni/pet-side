@@ -1,31 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {ScheduleDto} from 'src/types/CustomData';
+import {ScheduleDto, UserDto} from 'src/types/CustomData';
 import {Theme} from '../../../types/Theme';
 import styled from 'styled-components/native';
-import moment from 'moment';
 
-const Banner = () => {
+interface Props {
+  user: UserDto;
+  userSchedule: Array<ScheduleDto>;
+}
+
+const Banner = ({user, userSchedule}: Props) => {
   const [schedule, setSchedule] = useState<Array<ScheduleDto>>([]);
+  const [showMoreSchedule, setShowMoreSchedule] = useState<boolean>(false);
 
   const getSchedule = () => {
     //
-    setSchedule([
-      {
-        id: 1,
-        type: 'Meal',
-        date: '2023.07.06 17:00:00',
-        status: 'Done',
-      },
-      {
-        id: 2,
-        type: 'Custom',
-        title: '강아지 모델 촬영',
-        contents: '일산 스튜디오 촬영',
-        date: '2023.07.08 12:30:00',
-        status: 'Ready',
-      },
-    ]);
+    setSchedule(userSchedule);
   };
 
   useEffect(() => {
@@ -56,7 +46,7 @@ const Banner = () => {
     }
   };
 
-  const today = new Date();
+  // const today = new Date();
   const getTime = (item: ScheduleDto) => {
     if (item.date) {
       return <Text>{item.date}</Text>;
@@ -65,19 +55,41 @@ const Banner = () => {
 
   return (
     <Container>
+      <TitleContainer>
+        <RowContainer>
+          <UserName>{user.name}</UserName>
+          <Text>님 반가워요!</Text>
+        </RowContainer>
+        <Text>오늘 {user.petName}와 함께할 일정이에요</Text>
+      </TitleContainer>
       {schedule.length !== 0 ? (
         <>
-          {schedule.map((item: ScheduleDto) => {
-            return (
-              <BannerContainer key={item.id}>
-                <BannerImg source={getImage(item)} />
-                <View>
-                  <Text>{getTime(item)}</Text>
-                  <Text>{getTitle(item)}</Text>
-                </View>
-              </BannerContainer>
-            );
+          {schedule.map((item: ScheduleDto, index: number) => {
+            if (index !== 0 && !showMoreSchedule) {
+              return;
+            } else {
+              return (
+                <>
+                  <BannerContainer key={item.id}>
+                    <BannerImg source={getImage(item)} />
+                    <View>
+                      <Text>{item.date.split(' ', 1)}</Text>
+                      <Title>{getTitle(item)}</Title>
+                    </View>
+                  </BannerContainer>
+                </>
+              );
+            }
           })}
+          {schedule.length > 1 && (
+            <MoreBtn
+              hitSlop={20}
+              onPress={() => {
+                setShowMoreSchedule(!showMoreSchedule);
+              }}>
+              <MoreImg isShowMoreSchedule={showMoreSchedule} />
+            </MoreBtn>
+          )}
         </>
       ) : (
         <TouchableOpacity
@@ -98,6 +110,15 @@ const Container = styled.View`
   margin-top: 10px;
 `;
 
+const TitleContainer = styled.View`
+  margin: 5px 10px;
+`;
+
+const RowContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
 const BannerContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -108,6 +129,29 @@ const BannerImg = styled.Image`
   width: 30px;
   height: 30px;
   margin-right: 10px;
+`;
+
+const Title = styled.Text`
+  font-weight: 700;
+`;
+
+const UserName = styled.Text`
+  font-weight: 700;
+  color: ${Theme.colors.orange};
+`;
+
+const MoreBtn = styled.TouchableOpacity`
+  margin: 0 auto;
+`;
+
+const MoreImg = styled.Image.attrs({
+  source: require('../../../assets/images/left.png'),
+})<{isShowMoreSchedule?: boolean}>`
+  width: 20px;
+  height: 20px;
+  tint-color: #a3a3a3;
+  transform: ${(props: any) =>
+    props.isShowMoreSchedule ? 'rotate(90deg)' : 'rotate(-90deg)'};
 `;
 
 export default Banner;

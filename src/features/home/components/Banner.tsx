@@ -3,6 +3,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import {ScheduleDto, UserDto} from 'src/types/CustomData';
 import {Theme} from '../../../types/Theme';
 import styled from 'styled-components/native';
+import ScheduleImg from '../../../components/ScheduleImg';
 
 interface Props {
   user: UserDto;
@@ -34,18 +35,6 @@ const Banner = ({user, userSchedule}: Props) => {
     }
   };
 
-  const getImage = (item: ScheduleDto) => {
-    if (item.type === 'Custom') {
-      return require('../../../assets/images/pet.png');
-    } else if (item.type === 'Meal') {
-      return require('../../../assets/images/meal.png');
-    } else if (item.type === 'Snack') {
-      return require('../../../assets/images/snack.png');
-    } else {
-      return require('../../../assets/images/walk.png');
-    }
-  };
-
   // const today = new Date();
   const getTime = (item: ScheduleDto) => {
     if (item.date) {
@@ -70,7 +59,7 @@ const Banner = ({user, userSchedule}: Props) => {
             } else {
               return (
                 <BannerContainer key={item.id}>
-                  <BannerImg source={getImage(item)} />
+                  <ScheduleImg item={item} />
                   <View>
                     <Text>{item.date.split(' ', 1)}</Text>
                     <Title>{getTitle(item)}</Title>
@@ -106,6 +95,7 @@ const Container = styled.View`
   border-radius: 20px;
   padding: 10px 20px;
   margin-top: 10px;
+  width: 100%;
 `;
 
 const TitleContainer = styled.View`
@@ -121,12 +111,6 @@ const BannerContainer = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 10px;
-`;
-
-const BannerImg = styled.Image`
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
 `;
 
 const Title = styled.Text`

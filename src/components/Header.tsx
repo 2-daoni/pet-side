@@ -1,4 +1,8 @@
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {observer} from 'mobx-react';
 import React from 'react';
+import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams';
 import styled from 'styled-components/native';
 
 interface Props {
@@ -7,11 +11,19 @@ interface Props {
   RightComponent?: () => void;
 }
 
-const Header = (props: Props) => {
+const Header = observer((props: Props) => {
+  const navigation =
+    useNavigation<
+      StackNavigationProp<CustomStackNavigationParams, 'LoginScreen'>
+    >();
+
   return (
     <Container>
       {!props.disableBackBtn && (
-        <BackBtn>
+        <BackBtn
+          onPress={() => {
+            navigation.goBack();
+          }}>
           <BackImg />
         </BackBtn>
       )}
@@ -19,14 +31,14 @@ const Header = (props: Props) => {
       {props.RightComponent && props.RightComponent}
     </Container>
   );
-};
+});
 
 const Container = styled.View`
   flex-direction: row;
-  height: 60px;
-  padding-top: 15px;
   justify-content: space-between;
   align-items: center;
+  height: 80px;
+  padding: 40px 0 10px;
   background-color: white;
 `;
 

@@ -46,7 +46,7 @@ const LoginScreen = () => {
   const handleLogin = () => {
     // 로그인
     AsyncStorage.setItem('isLogin', 'true');
-    navigation.navigate('HomeScreen');
+    navigation.navigate('Home');
   };
 
   useEffect(() => {

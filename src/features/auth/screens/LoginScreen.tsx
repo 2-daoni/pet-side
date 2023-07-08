@@ -1,16 +1,19 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import {LoginDto} from 'src/types/CustomData';
 import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import Header from 'src/components/Header';
+import {useStore} from 'src/stores/StoreProvider';
 
 const LoginScreen = () => {
+  const {uiStore} = useStore();
   const navigation =
     useNavigation<StackNavigationProp<CustomStackNavigationParams>>();
+
   const [loginData, setLoginData] = useState<LoginDto>({
     email: '',
     password: '',
@@ -43,7 +46,7 @@ const LoginScreen = () => {
   const handleLogin = () => {
     // 로그인
     AsyncStorage.setItem('isLogin', 'true');
-    navigation.navigate('Home');
+    navigation.navigate('HomeScreen');
   };
 
   useEffect(() => {
@@ -54,8 +57,17 @@ const LoginScreen = () => {
   useEffect(() => {
     navigation.setOptions({
       header: () => {
-        return <Header title="Login" disableBackBtn />;
+        return <Header title="Login" />;
       },
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    navigation.addListener('focus', () => {
+      uiStore.setIsBottomTabShow(false);
+    });
+    navigation.addListener('blur', () => {
+      uiStore.setIsBottomTabShow(true);
     });
   }, []);
 

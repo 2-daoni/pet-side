@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useRef, useState} from 'react';
 import {
   createBottomTabNavigator,
   BottomTabBarProps,
@@ -12,6 +12,9 @@ import RegisterScreen from '../features/auth/screens/RegisterScreen';
 import CommunityScreen from 'src/features/community/screens/CommunityScreen';
 import PetContentsScreen from 'src/features/petContents/PetContentsScreen';
 import MyScreen from 'src/features/my/screens/MyScreen';
+import {observer} from 'mobx-react';
+import {useStore} from 'src/stores/StoreProvider';
+import {Animated, View} from 'react-native';
 
 const Tab = createBottomTabNavigator<any>();
 
@@ -57,12 +60,40 @@ const routeBtnItems: Array<RouteBtnItemsType> = [
   },
 ];
 
-const Route = () => {
-  const [currentTab, setCurrentTab] = useState<string>('홈');
+const Route = observer(() => {
+  const {uiStore} = useStore();
+  const [currentTab, setCurrentTab] = useState<string>('Home');
+
+  const translateY = useRef<Animated.Value>(new Animated.Value(0)).current;
+
+  const handleBottomTabAnimation = () => {
+    if (uiStore.isBottomTabShow) {
+      Animated.timing(translateY, {
+        toValue: 0,
+        useNativeDriver: true,
+        duration: 500,
+      }).start();
+    } else {
+      Animated.timing(translateY, {
+        toValue: 70,
+        useNativeDriver: true,
+        duration: 500,
+      }).start();
+    }
+  };
+
+  console.log(translateY);
 
   const customTabBar = (props: BottomTabBarProps) => {
     return (
-      <RouteBtnContainer>
+      <RouteBtnContainer
+        style={{
+          transform: [
+            {
+              translateY: translateY,
+            },
+          ],
+        }}>
         <>
           {routeBtnItems.map((item: RouteBtnItemsType) => {
             return (
@@ -92,6 +123,10 @@ const Route = () => {
     );
   };
 
+  useLayoutEffect(() => {
+    handleBottomTabAnimation();
+  }, [uiStore.isBottomTabShow]);
+
   return (
     <NavigationContainer>
       <Tab.Navigator tabBar={customTabBar} initialRouteName="Home">
@@ -104,9 +139,9 @@ const Route = () => {
       </Tab.Navigator>
     </NavigationContainer>
   );
-};
+});
 
-const RouteBtnContainer = styled.View`
+const RouteBtnContainer = styled(Animated.createAnimatedComponent(View))`
   flex-direction: row;
   height: 70px;
   border-top-right-radius: 30px;

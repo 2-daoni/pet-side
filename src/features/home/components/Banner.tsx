@@ -24,10 +24,6 @@ const Banner = ({user, userSchedule, isLogin}: Props) => {
     setSchedule(userSchedule);
   };
 
-  useEffect(() => {
-    getSchedule();
-  }, []);
-
   const getTitle = (item: ScheduleDto) => {
     if (item.type === 'Custom') {
       return item.title;
@@ -46,6 +42,10 @@ const Banner = ({user, userSchedule, isLogin}: Props) => {
       return <Text>{item.date}</Text>;
     }
   };
+
+  useEffect(() => {
+    getSchedule();
+  }, [userSchedule]);
 
   return (
     <Container>

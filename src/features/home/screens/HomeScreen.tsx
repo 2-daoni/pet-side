@@ -35,17 +35,20 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    getUserInfo();
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
 
+  useEffect(() => {
+    getUserInfo();
+  }, [isLogin]);
+
   useLayoutEffect(() => {
     navigation.addListener('focus', () => {
       getLoginStatus();
     });
-  });
+  }, []);
 
   return (
     <Container>
@@ -59,7 +62,7 @@ const HomeScreen = () => {
       <BannerContainer>
         <Banner user={user} userSchedule={userSchedule} isLogin={isLogin} />
       </BannerContainer>
-      <CustomCalendar userSchedule={userSchedule} />
+      <CustomCalendar userSchedule={userSchedule} isLogin={isLogin} />
     </Container>
   );
 };

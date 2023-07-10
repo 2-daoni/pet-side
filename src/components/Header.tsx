@@ -7,6 +7,7 @@ import styled from 'styled-components/native';
 
 interface Props {
   title?: string;
+  titleComponent?: () => React.ReactElement;
   disableBackBtn?: boolean;
   RightComponent?: () => void;
 }
@@ -27,7 +28,11 @@ const Header = observer((props: Props) => {
           <BackImg />
         </BackBtn>
       )}
-      <HeaderTitle>{props.title}</HeaderTitle>
+      {props.titleComponent ? (
+        props.titleComponent()
+      ) : (
+        <HeaderTitle>{props.title}</HeaderTitle>
+      )}
       {props.RightComponent && props.RightComponent}
     </Container>
   );

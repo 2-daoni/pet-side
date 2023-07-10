@@ -50,7 +50,7 @@ const routeBtnItems: Array<RouteBtnItemsType> = [
     id: 4,
     image: require('../assets/images/navigation/paws.png'),
     route: 'Pet',
-    name: '견종백서',
+    name: '견종백과',
   },
   {
     id: 5,

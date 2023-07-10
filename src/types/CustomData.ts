@@ -18,3 +18,12 @@ export interface ScheduleDto {
   date: string;
   status?: 'Ready' | 'Done';
 }
+
+export interface PetDictionaryDto {
+  name: string;
+  thumbnailImage: string;
+  images: Array<string>;
+  summary: Array<string>;
+  description: string;
+  score: number;
+}

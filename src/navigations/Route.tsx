@@ -87,6 +87,7 @@ const Route = observer(() => {
     const handlePressRouteBtn = (item: RouteBtnItemsType) => {
       if (item.id === 3) {
         //
+        setCurrentTab(item.route);
       } else {
         props.navigation.navigate(item.route);
         setCurrentTab(item.route);

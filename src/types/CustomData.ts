@@ -23,7 +23,7 @@ export interface PetDictionaryDto {
   id: number;
   name: string;
   thumbnailImage: string;
-  images: Array<string>;
+  images: Array<any>;
   summary: Array<string>;
   description: string;
   score: number;

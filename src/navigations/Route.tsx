@@ -9,12 +9,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import {Theme} from '../types/Theme';
 import LoginScreen from '../features/auth/screens/LoginScreen';
 import RegisterScreen from '../features/auth/screens/RegisterScreen';
-import CommunityScreen from 'src/features/community/screens/CommunityScreen';
-import PetContentsScreen from 'src/features/petContents/PetContentsScreen';
-import MyScreen from 'src/features/my/screens/MyScreen';
 import {observer} from 'mobx-react';
 import {useStore} from 'src/stores/StoreProvider';
 import {Animated, View} from 'react-native';
+import PetContentsScreen from 'src/features/petContents/screens/PetContentsScreen';
+import CommunityScreen from 'src/features/community/screens/CommunityScreen';
+import MyScreen from 'src/features/my/screens/MyScreen';
+import PetDetailScreen from 'src/features/petContents/screens/PetDetailScreen';
 
 const Tab = createBottomTabNavigator<any>();
 
@@ -82,9 +83,15 @@ const Route = observer(() => {
     }
   };
 
-  console.log(translateY);
-
   const customTabBar = (props: BottomTabBarProps) => {
+    const handlePressRouteBtn = (item: RouteBtnItemsType) => {
+      if (item.id === 3) {
+        //
+      } else {
+        props.navigation.navigate(item.route);
+        setCurrentTab(item.route);
+      }
+    };
     return (
       <RouteBtnContainer
         style={{
@@ -102,8 +109,7 @@ const Route = observer(() => {
                 id={item.id}
                 isCurrent={item.name === currentTab}
                 onPress={() => {
-                  props.navigation.navigate(item.route);
-                  setCurrentTab(item.route);
+                  handlePressRouteBtn(item);
                 }}>
                 <Icon
                   size={item?.size}
@@ -129,13 +135,17 @@ const Route = observer(() => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator tabBar={customTabBar} initialRouteName="Home">
+      <Tab.Navigator
+        sceneContainerStyle={{backgroundColor: 'transparent'}}
+        tabBar={customTabBar}
+        initialRouteName="Home">
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'LoginScreen'} component={LoginScreen} />
         <Tab.Screen name={'RegisterScreen'} component={RegisterScreen} />
         <Tab.Screen name={'Community'} component={CommunityScreen} />
         <Tab.Screen name={'Pet'} component={PetContentsScreen} />
         <Tab.Screen name={'My'} component={MyScreen} />
+        <Tab.Screen name={'PetDetailScreen'} component={PetDetailScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

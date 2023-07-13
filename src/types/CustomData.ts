@@ -20,6 +20,7 @@ export interface ScheduleDto {
 }
 
 export interface PetDictionaryDto {
+  id: number;
   name: string;
   thumbnailImage: string;
   images: Array<string>;

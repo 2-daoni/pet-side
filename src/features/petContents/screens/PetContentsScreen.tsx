@@ -32,16 +32,19 @@ const PetContentsScreen = () => {
         <View>
           <BoldText>{petContents.name}</BoldText>
           <RowContainer>
-            {petContents.summary.map((petContents: string) => {
+            {petContents.summary.map((summary: string, index: number) => {
               return (
-                <Chip>
-                  <WhiteText>{petContents}</WhiteText>
+                <Chip key={index}>
+                  <WhiteText>{summary}</WhiteText>
                 </Chip>
               );
             })}
           </RowContainer>
           <Text numberOfLines={2}>{petContents.description}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('PetDetailScreen', {petContents});
+            }}>
             <Text style={{textAlign: 'right'}}>더보기</Text>
           </TouchableOpacity>
         </View>
@@ -65,7 +68,11 @@ const PetContentsScreen = () => {
 
   return (
     <Container>
-      <FlatList data={PetDictionary} renderItem={renderItem} />
+      <FlatList
+        data={PetDictionary}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => `${index}_${item.id}`}
+      />
     </Container>
   );
 };

@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {LoginDto} from 'src/types/CustomData';
 import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -86,7 +86,7 @@ const LoginScreen = () => {
           onChangeText={(text: string) => {
             setLoginData({...loginData, password: text});
           }}
-          placeholder="비밀번를 입력해주세요"
+          placeholder="비밀번호를 입력해주세요"
         />
       </InputContainer>
       <Btn onPress={handleLogin} isActive={isActive}>

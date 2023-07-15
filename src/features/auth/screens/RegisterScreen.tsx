@@ -18,7 +18,7 @@ const RegisterScreen = () => {
   const [joinData, setJoinData] = useState<UserDto>({
     email: '',
     password: '',
-    name: '',
+    profile: {name: ''},
   });
 
   const handleJoin = () => {
@@ -39,7 +39,7 @@ const RegisterScreen = () => {
     const emailRegex = /^[a-z0-9.]+@[a-z]+\.[a-z]{2,3}$/;
     if (
       joinData.email !== '' &&
-      joinData.name !== '' &&
+      joinData.profile.name !== '' &&
       joinData.password !== '' &&
       emailRegex.test(joinData.email)
     ) {
@@ -114,7 +114,10 @@ const RegisterScreen = () => {
           <Input
             placeholder="이름을 입력해주세요"
             onChangeText={(text: string) => {
-              setJoinData({...joinData, name: text});
+              setJoinData({
+                ...joinData,
+                profile: {...joinData.profile, name: text},
+              });
             }}
           />
         </InputWrapper>
@@ -123,7 +126,10 @@ const RegisterScreen = () => {
           <Input
             placeholder="반려동물 이름을 입력해주세요"
             onChangeText={(text: string) => {
-              setJoinData({...joinData, petName: text});
+              setJoinData({
+                ...joinData,
+                profile: {...joinData.profile, petName: text},
+              });
             }}
           />
         </InputWrapper>

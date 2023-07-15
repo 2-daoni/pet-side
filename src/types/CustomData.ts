@@ -3,12 +3,17 @@ export interface LoginDto {
   password: string;
 }
 
+export interface ProfileDto {
+  name: string;
+  petName?: string;
+  profileImage?: string;
+}
+
 export interface UserDto {
   id?: number;
   email: string;
   password: string;
-  name: string;
-  petName?: string;
+  profile: ProfileDto;
 }
 
 export interface ScheduleDto {

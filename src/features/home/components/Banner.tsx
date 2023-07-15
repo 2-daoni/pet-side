@@ -53,13 +53,15 @@ const Banner = ({user, userSchedule, isLogin}: Props) => {
         <>
           <TitleContainer>
             <RowContainer>
-              <UserName>{user.name}</UserName>
+              <UserName>{user.profile?.name}</UserName>
               <Text>님 반가워요!</Text>
             </RowContainer>
           </TitleContainer>
           {schedule.length !== 0 ? (
             <>
-              <Text>오늘 {user.petName}와 함께할 일정이에요</Text>
+              {user.profile?.petName && (
+                <Text>오늘 {user.profile?.petName}와 함께할 일정이에요</Text>
+              )}
               {schedule.map((item: ScheduleDto, index: number) => {
                 if (index !== 0 && !showMoreSchedule) {
                   return;
@@ -88,7 +90,9 @@ const Banner = ({user, userSchedule, isLogin}: Props) => {
           ) : (
             <>
               <Text>등록된 일정이 없네요!</Text>
-              <Text>{user.petName}와 함께 할 일정을 추가해보세요!</Text>
+              <Text>
+                {user.profile?.petName}와 함께 할 일정을 추가해보세요!
+              </Text>
               <OrangeBtn>
                 <BtnText>추가하기</BtnText>
               </OrangeBtn>

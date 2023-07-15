@@ -4,10 +4,11 @@ export interface LoginDto {
 }
 
 export interface UserDto {
-  id: number;
+  id?: number;
   email: string;
+  password: string;
   name: string;
-  petName: string;
+  petName?: string;
 }
 
 export interface ScheduleDto {

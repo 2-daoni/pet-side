@@ -6,12 +6,14 @@ import styled from 'styled-components/native';
 import Banner from '../components/Banner';
 import CustomCalendar from '../components/CustomCalendar';
 import {ScheduleDto, UserDto} from 'src/types/CustomData';
-import {User, UserSchedule} from 'src/types/DummyData';
+import {UserSchedule} from 'src/types/DummyData';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text, TouchableOpacity} from 'react-native';
 import RNRestart from 'react-native-restart';
+import {useStore} from 'src/stores/StoreProvider';
 
 const HomeScreen = () => {
+  const {authStore} = useStore();
   const navigation =
     useNavigation<StackNavigationProp<CustomStackNavigationParams>>();
 
@@ -20,7 +22,7 @@ const HomeScreen = () => {
   const [userSchedule, setUserSchedule] = useState<Array<ScheduleDto>>([]);
 
   const getUserInfo = () => {
-    setUser(User);
+    setUser(authStore.currentUser);
     setUserSchedule(UserSchedule);
   };
 

@@ -1,18 +1,21 @@
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
-import {LoginDto} from 'src/types/CustomData';
+import {TouchableOpacity} from 'react-native';
+import {LoginDto, UserDto} from 'src/types/CustomData';
 import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import Header from 'src/components/Header';
 import {useStore} from 'src/stores/StoreProvider';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 const LoginScreen = () => {
-  const {uiStore} = useStore();
+  const {uiStore, authStore} = useStore();
   const navigation =
     useNavigation<StackNavigationProp<CustomStackNavigationParams>>();
+  const route =
+    useRoute<RouteProp<CustomStackNavigationParams, 'LoginScreen'>>();
 
   const [loginData, setLoginData] = useState<LoginDto>({
     email: '',
@@ -43,11 +46,32 @@ const LoginScreen = () => {
     }
   };
 
-  const handleLogin = () => {
-    // 로그인
-    AsyncStorage.setItem('isLogin', 'true');
-    navigation.navigate('Home');
+  const handleLogin = async () => {
+    const findUser = authStore.userList.find(
+      (item: UserDto) =>
+        item.email === loginData.email && item.password === loginData.password,
+    );
+    if (findUser) {
+      authStore.setCurrentUser(findUser);
+      AsyncStorage.setItem('isLogin', 'true');
+      navigation.navigate('Home');
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: '존재하지 않은 계정입니다',
+        text2: '가입 후 사용해주세요',
+      });
+    }
   };
+
+  useEffect(() => {
+    if (route.params?.email && route.params?.password) {
+      setLoginData({
+        email: route.params.email,
+        password: route.params.password,
+      });
+    }
+  }, [route.params]);
 
   useEffect(() => {
     checkLoginData();
@@ -76,6 +100,7 @@ const LoginScreen = () => {
       <InputContainer>
         <Label>Email</Label>
         <Input
+          value={loginData.email}
           onChangeText={(text: string) => {
             setLoginData({...loginData, email: text});
           }}
@@ -83,6 +108,8 @@ const LoginScreen = () => {
         />
         <Label>Password</Label>
         <Input
+          secureTextEntry={true}
+          value={loginData.password}
           onChangeText={(text: string) => {
             setLoginData({...loginData, password: text});
           }}

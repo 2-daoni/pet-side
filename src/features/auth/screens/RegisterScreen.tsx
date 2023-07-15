@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {Text} from 'react-native';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import Header from 'src/components/Header';
 import {useStore} from 'src/stores/StoreProvider';
 import {UserDto} from 'src/types/CustomData';
@@ -9,34 +9,45 @@ import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams
 import styled from 'styled-components/native';
 
 const RegisterScreen = () => {
-  const {uiStore} = useStore();
+  const {uiStore, authStore} = useStore();
 
   const navigation =
     useNavigation<StackNavigationProp<CustomStackNavigationParams>>();
 
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [joinData, setJoinData] = useState<UserDto>({});
+  const [joinData, setJoinData] = useState<UserDto>({
+    email: '',
+    password: '',
+    name: '',
+  });
 
-  const handlePressJoin = () => {
-    //
+  const handleJoin = () => {
+    Toast.show({
+      type: 'success',
+      text1: '가입이 완료되었습니다!',
+      text2: '로그인후 다양한 서비스를 이용해보세요!',
+    });
+    authStore.setUserList(joinData);
+    authStore.setCurrentUser(joinData);
+    navigation.navigate('LoginScreen', {
+      email: joinData.email,
+      password: joinData.password,
+    });
   };
 
   const checkIsActive = () => {
-    const emailReg =
-      /^[0-9a-z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    const emailRegex = /^[a-z0-9.]+@[a-z]+\.[a-z]{2,3}$/;
     if (
       joinData.email !== '' &&
       joinData.name !== '' &&
       joinData.password !== '' &&
-      emailReg.test(joinData.email)
+      emailRegex.test(joinData.email)
     ) {
       setIsActive(true);
     } else {
       setIsActive(false);
     }
   };
-
-  console.log(joinData);
 
   useEffect(() => {
     checkIsActive();
@@ -89,6 +100,7 @@ const RegisterScreen = () => {
             비밀번호 <CustomText fontColor="red">*</CustomText>
           </Label>
           <Input
+            secureTextEntry={true}
             placeholder="비밀번호를 입력해주세요"
             onChangeText={(text: string) => {
               setJoinData({...joinData, password: text});
@@ -119,7 +131,11 @@ const RegisterScreen = () => {
           <CustomText fontColor="red">*</CustomText>는 필수항목입니다.
         </CustomText>
       </InputContainer>
-      <Btn isActive={isActive} onPress={handlePressJoin}>
+      <Btn
+        isActive={isActive}
+        onPress={() => {
+          handleJoin();
+        }}>
         <BtnText>가입하기</BtnText>
       </Btn>
     </Container>
@@ -178,6 +194,7 @@ const Btn = styled.TouchableOpacity<{isActive?: boolean}>`
   padding: 15px;
   margin: 10px 0;
   background-color: orange;
+  pointer-events: ${(props: any) => (props.isActive ? 'all' : 'none')};
 `;
 
 const BtnText = styled.Text`

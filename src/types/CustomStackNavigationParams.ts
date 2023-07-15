@@ -11,7 +11,7 @@ export type CustomBottomTabNavigationParams = {
 };
 
 export type CustomStackNavigationParams = {
-  LoginScreen: undefined;
+  LoginScreen: {email?: string; password?: string};
   RegisterScreen: undefined;
   PetContentsScreen: undefined;
   MyScreen: undefined;

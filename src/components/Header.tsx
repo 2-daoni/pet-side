@@ -10,6 +10,7 @@ interface Props {
   title?: string;
   titleComponent?: () => React.ReactElement;
   disableBackBtn?: boolean;
+  pressBack?: () => void;
   RightComponent?: () => React.ReactElement;
 }
 
@@ -34,7 +35,11 @@ const Header = observer((props: Props) => {
       {showBackBtn && (
         <BackBtn
           onPress={() => {
-            navigation.goBack();
+            if (props.pressBack) {
+              props.pressBack();
+            } else {
+              navigation.goBack();
+            }
           }}>
           <BackImg />
         </BackBtn>

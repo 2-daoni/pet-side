@@ -6,6 +6,8 @@ import styled from 'styled-components/native';
 import ScheduleImg from 'src/components/ScheduleImg';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import AuthStore from 'src/stores/AuthStore';
+import {useStore} from 'src/stores/StoreProvider';
 
 interface Props {
   user: UserDto;
@@ -14,6 +16,8 @@ interface Props {
 }
 
 const Banner = ({user, userSchedule, isLogin}: Props) => {
+  const {authStore} = useStore();
+
   const navigation = useNavigation<StackNavigationProp<any>>();
 
   const [schedule, setSchedule] = useState<Array<ScheduleDto>>([]);
@@ -49,7 +53,7 @@ const Banner = ({user, userSchedule, isLogin}: Props) => {
 
   return (
     <Container>
-      {isLogin ? (
+      {authStore.isLogin ? (
         <>
           <TitleContainer>
             <RowContainer>

@@ -33,36 +33,42 @@ const MyScreen = () => {
 
   return (
     <Container>
-      <TouchableOpacity
-        onPress={() => {
-          AsyncStorage.removeItem('isLogin');
-          RNRestart.restart();
-        }}>
-        <Text>로그아웃</Text>
-      </TouchableOpacity>
-      <ImgBtn
-        onPress={() => {
-          launchImageLibrary({mediaType: 'photo'}, (img: any) => {
-            setUser({
-              ...user,
-              profile: {...user.profile, profileImage: img.assets[0].uri},
-            });
-          });
-        }}>
-        {user.profile?.profileImage ? (
-          <ProfileImg source={{uri: user.profile.profileImage}} />
-        ) : (
-          <ProfileImg
-            source={require('src/assets/images/navigation/plus.png')}
-          />
-        )}
-      </ImgBtn>
-      <Label>이름</Label>
-      <Input value={user.profile?.name} />
-      <Label>이메일</Label>
-      <Input value={user.email} />
-      <Label>펫이름</Label>
-      <Input value={user.profile?.petName} />
+      {authStore.isLogin ? (
+        <>
+          <TouchableOpacity
+            onPress={() => {
+              AsyncStorage.removeItem('isLogin');
+              RNRestart.restart();
+            }}>
+            <Text>로그아웃</Text>
+          </TouchableOpacity>
+          <ImgBtn
+            onPress={() => {
+              launchImageLibrary({mediaType: 'photo'}, (img: any) => {
+                setUser({
+                  ...user,
+                  profile: {...user.profile, profileImage: img.assets[0].uri},
+                });
+              });
+            }}>
+            {user.profile?.profileImage ? (
+              <ProfileImg source={{uri: user.profile.profileImage}} />
+            ) : (
+              <ProfileImg
+                source={require('src/assets/images/navigation/plus.png')}
+              />
+            )}
+          </ImgBtn>
+          <Label>이름</Label>
+          <Input value={user.profile?.name} />
+          <Label>이메일</Label>
+          <Input value={user.email} />
+          <Label>펫이름</Label>
+          <Input value={user.profile?.petName} />
+        </>
+      ) : (
+        <Text>가입후 사용해주세요</Text>
+      )}
     </Container>
   );
 };

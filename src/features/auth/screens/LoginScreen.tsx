@@ -53,7 +53,7 @@ const LoginScreen = () => {
     );
     if (findUser) {
       authStore.setCurrentUser(findUser);
-      AsyncStorage.setItem('isLogin', 'true');
+      authStore.setIsLogin(true);
       navigation.navigate('Home');
     } else {
       Toast.show({

@@ -6,11 +6,17 @@ class AuthStore {
     makeAutoObservable(this);
   }
 
+  isLogin: boolean = false;
+
   userList: Array<UserDto> = [
-    {email: 'test@test.com', password: 'test1111', name: 'test'},
+    {email: 'test@test.com', password: 'test1111', profile: {name: 'test'}},
   ];
 
-  currentUser: UserDto = {email: '', password: '', name: ''};
+  currentUser: UserDto = {email: '', password: '', profile: {name: ''}};
+
+  setIsLogin(isLogin: boolean) {
+    this.isLogin = isLogin;
+  }
 
   setUserList(newUser: UserDto) {
     this.userList.push(newUser);

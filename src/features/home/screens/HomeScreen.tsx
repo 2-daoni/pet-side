@@ -7,7 +7,6 @@ import Banner from '../components/Banner';
 import CustomCalendar from '../components/CustomCalendar';
 import {ScheduleDto, UserDto} from 'src/types/CustomData';
 import {UserSchedule} from 'src/types/DummyData';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Text, TouchableOpacity} from 'react-native';
 import RNRestart from 'react-native-restart';
 import {useStore} from 'src/stores/StoreProvider';
@@ -26,16 +25,6 @@ const HomeScreen = () => {
     setUserSchedule(UserSchedule);
   };
 
-  const getLoginStatus = async () => {
-    const loginStatus = await AsyncStorage.getItem('isLogin');
-
-    if (loginStatus === 'true') {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  };
-
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -43,12 +32,13 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
+    setIsLogin(authStore.isLogin);
     getUserInfo();
-  }, [isLogin]);
+  }, [authStore.isLogin]);
 
   useLayoutEffect(() => {
     navigation.addListener('focus', () => {
-      getLoginStatus();
+      setIsLogin(authStore.isLogin);
     });
   }, []);
 
@@ -56,7 +46,7 @@ const HomeScreen = () => {
     <Container>
       <TouchableOpacity
         onPress={() => {
-          AsyncStorage.removeItem('isLogin');
+          authStore.setIsLogin(false);
           RNRestart.restart();
         }}>
         <Text>로그아웃</Text>

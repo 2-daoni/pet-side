@@ -6,7 +6,6 @@ import styled from 'styled-components/native';
 import ScheduleImg from 'src/components/ScheduleImg';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import AuthStore from 'src/stores/AuthStore';
 import {useStore} from 'src/stores/StoreProvider';
 
 interface Props {
@@ -63,9 +62,13 @@ const Banner = ({user, userSchedule, isLogin}: Props) => {
           </TitleContainer>
           {schedule.length !== 0 ? (
             <>
-              {user.profile?.petName && (
-                <Text>오늘 {user.profile?.petName}와 함께할 일정이에요</Text>
-              )}
+              <Text>
+                오늘{' '}
+                {user.profile?.petName
+                  ? user.profile?.petName
+                  : user.profile?.name + '님의 반려동물'}
+                과 함께할 일정이에요
+              </Text>
               {schedule.map((item: ScheduleDto, index: number) => {
                 if (index !== 0 && !showMoreSchedule) {
                   return;

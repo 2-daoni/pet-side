@@ -44,13 +44,6 @@ const HomeScreen = () => {
 
   return (
     <Container>
-      <TouchableOpacity
-        onPress={() => {
-          authStore.setIsLogin(false);
-          RNRestart.restart();
-        }}>
-        <Text>로그아웃</Text>
-      </TouchableOpacity>
       <BannerContainer>
         <Banner user={user} userSchedule={userSchedule} isLogin={isLogin} />
       </BannerContainer>

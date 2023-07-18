@@ -16,6 +16,7 @@ import PetContentsScreen from 'src/features/petContents/screens/PetContentsScree
 import CommunityScreen from 'src/features/community/screens/CommunityScreen';
 import MyScreen from 'src/features/my/screens/MyScreen';
 import PetDetailScreen from 'src/features/petContents/screens/PetDetailScreen';
+import AccountModifyScreen from 'src/features/my/screens/AccountModifyScreen';
 
 const Tab = createBottomTabNavigator<any>();
 
@@ -147,6 +148,10 @@ const Route = observer(() => {
         <Tab.Screen name={'Pet'} component={PetContentsScreen} />
         <Tab.Screen name={'My'} component={MyScreen} />
         <Tab.Screen name={'PetDetailScreen'} component={PetDetailScreen} />
+        <Tab.Screen
+          name={'AccountModifyScreen'}
+          component={AccountModifyScreen}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

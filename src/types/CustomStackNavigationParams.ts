@@ -1,5 +1,5 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
-import {PetDictionaryDto} from './CustomData';
+import {PetDictionaryDto, UserDto} from './CustomData';
 
 export type CustomBottomTabNavigationParams = {
   Home: NavigatorScreenParams<CustomStackNavigationParams>;
@@ -18,4 +18,5 @@ export type CustomStackNavigationParams = {
   HomeScreen: undefined;
   CommunityScreen: undefined;
   PetDetailScreen: {petContents: PetDictionaryDto};
+  AccountModifyScreen: {user: UserDto};
 };

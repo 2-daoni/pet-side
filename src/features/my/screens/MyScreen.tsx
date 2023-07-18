@@ -8,7 +8,6 @@ import {UserDto} from 'src/types/CustomData';
 import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams';
 import RNRestart from 'react-native-restart';
 import styled from 'styled-components/native';
-import {launchImageLibrary} from 'react-native-image-picker';
 
 const MyScreen = () => {
   const {authStore} = useStore();
@@ -35,36 +34,19 @@ const MyScreen = () => {
     <Container>
       {authStore.isLogin ? (
         <>
-          <TouchableOpacity
+          <LogoutBtn
             onPress={() => {
               AsyncStorage.removeItem('isLogin');
               RNRestart.restart();
             }}>
             <Text>로그아웃</Text>
-          </TouchableOpacity>
-          <ImgBtn
+          </LogoutBtn>
+          <Btn
             onPress={() => {
-              launchImageLibrary({mediaType: 'photo'}, (img: any) => {
-                setUser({
-                  ...user,
-                  profile: {...user.profile, profileImage: img.assets[0].uri},
-                });
-              });
+              navigation.navigate('AccountModifyScreen', {user: user});
             }}>
-            {user.profile?.profileImage ? (
-              <ProfileImg source={{uri: user.profile.profileImage}} />
-            ) : (
-              <ProfileImg
-                source={require('src/assets/images/navigation/plus.png')}
-              />
-            )}
-          </ImgBtn>
-          <Label>이름</Label>
-          <Input value={user.profile?.name} />
-          <Label>이메일</Label>
-          <Input value={user.email} />
-          <Label>펫이름</Label>
-          <Input value={user.profile?.petName} />
+            <Text>회원정보수정</Text>
+          </Btn>
         </>
       ) : (
         <Text>가입후 사용해주세요</Text>
@@ -77,29 +59,14 @@ const Container = styled.View`
   padding: 50px 20px;
 `;
 
-const ProfileImg = styled.Image<{size?: number}>`
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
-  border-width: 1px;
+const LogoutBtn = styled.TouchableOpacity`
+  margin-left: auto;
 `;
 
-const ImgBtn = styled.TouchableOpacity`
-  margin: 0 auto;
-  padding: 20px;
-`;
-
-const InputWrapper = styled.View``;
-
-const Label = styled.Text`
-  font-weight: 700;
-`;
-
-const Input = styled.TextInput`
+const Btn = styled.TouchableOpacity`
+  padding: 10px;
   border-bottom-width: 1px;
   border-color: #e5e5e5;
-  margin: 5px 0 10px;
-  padding: 5px 0;
 `;
 
 export default MyScreen;

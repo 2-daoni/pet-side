@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {Linking, Text, TouchableOpacity} from 'react-native';
 import {useStore} from 'src/stores/StoreProvider';
 import {UserDto} from 'src/types/CustomData';
 import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams';
@@ -41,12 +41,20 @@ const MyScreen = () => {
             }}>
             <Text>로그아웃</Text>
           </LogoutBtn>
-          <Btn
-            onPress={() => {
-              navigation.navigate('AccountModifyScreen', {user: user});
-            }}>
-            <Text>회원정보수정</Text>
-          </Btn>
+          <BtnContainer>
+            <Btn
+              onPress={() => {
+                navigation.navigate('AccountModifyScreen', {user: user});
+              }}>
+              <Text>회원정보수정</Text>
+            </Btn>
+            <Btn
+              onPress={() => {
+                Linking.openSettings();
+              }}>
+              <Text>알림 설정</Text>
+            </Btn>
+          </BtnContainer>
         </>
       ) : (
         <Text>가입후 사용해주세요</Text>
@@ -63,8 +71,12 @@ const LogoutBtn = styled.TouchableOpacity`
   margin-left: auto;
 `;
 
+const BtnContainer = styled.View`
+  padding-top: 30px;
+`;
+
 const Btn = styled.TouchableOpacity`
-  padding: 10px;
+  padding: 15px 10px;
   border-bottom-width: 1px;
   border-color: #e5e5e5;
 `;

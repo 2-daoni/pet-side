@@ -2,6 +2,7 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import Header from 'src/components/Header';
 import {useStore} from 'src/stores/StoreProvider';
 import {UserDto} from 'src/types/CustomData';
@@ -62,12 +63,23 @@ const AccountModifyScreen = () => {
           />
         )}
       </ImgBtn>
-      <Label>이름</Label>
-      <Input value={user.profile?.name} />
-      <Label>이메일</Label>
-      <Input value={user.email} />
-      <Label>펫이름</Label>
-      <Input value={user.profile?.petName} />
+      <InputContainer>
+        <Label>이름</Label>
+        <Input value={user.profile?.name} />
+        <Label>이메일</Label>
+        <Input value={user.email} />
+        <Label>펫이름</Label>
+        <Input value={user.profile?.petName} />
+      </InputContainer>
+      <SaveBtn
+        onPress={() => {
+          Toast.show({
+            type: 'success',
+            text1: '회원정보 수정이 완료되었습니다',
+          });
+        }}>
+        <SaveText>회원정보수정</SaveText>
+      </SaveBtn>
     </Container>
   );
 };
@@ -75,6 +87,11 @@ const AccountModifyScreen = () => {
 const Container = styled.View`
   flex: 1;
   padding: 50px 20px;
+  align-items: center;
+`;
+
+const InputContainer = styled.View`
+  width: 100%;
 `;
 
 const ImgBtn = styled.TouchableOpacity`
@@ -100,6 +117,20 @@ const Input = styled.TextInput`
   border-color: #e5e5e5;
   margin: 5px 0 10px;
   padding: 5px 0;
+`;
+
+const SaveBtn = styled.TouchableOpacity`
+  border-radius: 30px;
+  background-color: #e6c589;
+  padding: 15px;
+  width: 100%;
+`;
+
+const SaveText = styled.Text`
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
 `;
 
 export default AccountModifyScreen;

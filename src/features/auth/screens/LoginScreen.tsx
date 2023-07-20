@@ -119,12 +119,14 @@ const LoginScreen = () => {
         <BtnText>로그인</BtnText>
       </Btn>
       <RowContainer>
-        <GrayText>아직 회원이 아니신가요?</GrayText>
+        <CustomText>아직 회원이 아니신가요?</CustomText>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('RegisterScreen');
           }}>
-          <GrayText>가입하기</GrayText>
+          <CustomText color="black" fontWeight="700">
+            가입하기
+          </CustomText>
         </TouchableOpacity>
       </RowContainer>
     </Container>
@@ -172,9 +174,14 @@ const BtnText = styled.Text`
   font-size: 16px;
 `;
 
-const GrayText = styled.Text`
-  font-size: 12px;
-  color: #d9d9d9;
+const CustomText = styled.Text<{
+  fontSize?: number;
+  color?: string;
+  fontWeight?: number;
+}>`
+  color: ${(props: any) => props.color || '#919090'};
+  font-size: ${(props: any) => props.fontSize || 12}px;
+  font-weight: ${(props: any) => props.fontWeight || '500'};
 `;
 
 export default LoginScreen;

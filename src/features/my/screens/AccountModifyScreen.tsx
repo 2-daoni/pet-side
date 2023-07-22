@@ -1,6 +1,6 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import Header from 'src/components/Header';
@@ -10,7 +10,7 @@ import {CustomStackNavigationParams} from 'src/types/CustomStackNavigationParams
 import styled from 'styled-components/native';
 
 const AccountModifyScreen = () => {
-  const {uiStore} = useStore();
+  const {uiStore, authStore} = useStore();
 
   const route =
     useRoute<RouteProp<CustomStackNavigationParams, 'AccountModifyScreen'>>();
@@ -18,10 +18,19 @@ const AccountModifyScreen = () => {
   const navigation =
     useNavigation<StackNavigationProp<CustomStackNavigationParams>>();
 
-  const [user, setUser] = useState<UserDto>({});
+  const [modifyUser, setModifyUser] = useState<UserDto>({});
+
+  const handleSave = useCallback(() => {
+    authStore.setCurrentUser(modifyUser);
+    Toast.show({
+      type: 'success',
+      text1: '회원정보 수정이 완료되었습니다',
+    });
+    navigation.navigate('My');
+  }, []);
 
   useEffect(() => {
-    setUser(route.params?.user);
+    setModifyUser(route.params?.user);
   }, [route.params?.user]);
 
   useEffect(() => {
@@ -49,14 +58,14 @@ const AccountModifyScreen = () => {
       <ImgBtn
         onPress={() => {
           launchImageLibrary({mediaType: 'photo'}, (img: any) => {
-            setUser({
-              ...user,
-              profile: {...user.profile, profileImage: img.assets[0].uri},
+            setModifyUser({
+              ...modifyUser,
+              profile: {...modifyUser.profile, profileImage: img.assets[0].uri},
             });
           });
         }}>
-        {user.profile?.profileImage ? (
-          <ProfileImg source={{uri: user.profile.profileImage}} />
+        {modifyUser.profile?.profileImage ? (
+          <ProfileImg source={{uri: modifyUser.profile.profileImage}} />
         ) : (
           <ProfileImg
             source={require('src/assets/images/navigation/plus.png')}
@@ -65,19 +74,37 @@ const AccountModifyScreen = () => {
       </ImgBtn>
       <InputContainer>
         <Label>이름</Label>
-        <Input value={user.profile?.name} />
+        <Input
+          value={modifyUser.profile?.name}
+          onChangeText={(text: string) => {
+            setModifyUser({
+              ...modifyUser,
+              profile: {...modifyUser.profile, name: text},
+            });
+          }}
+        />
         <Label>이메일</Label>
-        <Input value={user.email} />
+        <Input
+          value={modifyUser.email}
+          onChangeText={(text: string) => {
+            setModifyUser({
+              ...modifyUser,
+              email: text,
+            });
+          }}
+        />
         <Label>펫이름</Label>
-        <Input value={user.profile?.petName} />
+        <Input
+          value={modifyUser.profile?.petName}
+          onChangeText={(text: string) => {
+            setModifyUser({
+              ...modifyUser,
+              profile: {...modifyUser.profile, petName: text},
+            });
+          }}
+        />
       </InputContainer>
-      <SaveBtn
-        onPress={() => {
-          Toast.show({
-            type: 'success',
-            text1: '회원정보 수정이 완료되었습니다',
-          });
-        }}>
+      <SaveBtn onPress={handleSave}>
         <SaveText>회원정보수정</SaveText>
       </SaveBtn>
     </Container>
